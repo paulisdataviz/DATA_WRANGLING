@@ -30,10 +30,10 @@ A list of all of the different venue locations
 ### Requirements
 
 * Input the Data 
-* Create a correctly formatted DateTime field (hint)
-* Parse the event list so each event is on a separate row (hint)
-* Group similar sports into a Sport Type field (hint)
-* Combine the Venue table (hint)
+* Create a correctly formatted DateTime field 
+* Parse the event list so each event is on a separate row 
+* Group similar sports into a Sport Type field 
+* Combine the Venue table 
 * Calculate whether the event is a 'Victory Ceremony' or 'Gold Medal' event. (Note, this might not pick up all of the medal events.)
 * Output the Data
 
@@ -57,10 +57,10 @@ Data resides in a .xlsx file, and it has two sheets:
 * Venue Details
 
 ```{r}
-event_schedule_tbl <- readxl::read_excel(path = '2021_W29_prepping_data_files/Olympic Events.xlsx', 
+event_schedule_tbl <- readxl::read_excel(path = '../DATA_WRANGLING/2021_W29_prepping_data_files/Olympic Events.xlsx', 
                                          sheet = 1)
 
-venue_details_tbl <- readxl::read_excel(path = '2021_W29_prepping_data_files/Olympic Events.xlsx', 
+venue_details_tbl <- readxl::read_excel(path = '../DATA_WRANGLING/2021_W29_prepping_data_files/Olympic Events.xlsx', 
                                         sheet = 2)
 ```
 
@@ -72,8 +72,10 @@ venue_details_tbl <- readxl::read_excel(path = '2021_W29_prepping_data_files/Oly
 * Inspecting first five rows:
 ```{r}
 event_schedule_tbl %>%
-  head()
+  head() %>%
+  kable()
 ```
+
 
 * Detailed summary:
 ```{r}
@@ -81,11 +83,14 @@ event_schedule_tbl %>%
   skim()
 ```
 
+
 * Glimpse data:
 ```{r}
 event_schedule_tbl %>%
   glimpse()
 ```
+
+
 
 **venue details table**
 
@@ -123,6 +128,7 @@ event_schedule_clean_1_tbl <- event_schedule_tbl %>%
   select(-Day:-Time)
 
 event_schedule_clean_1_tbl %>%
+  head(10) %>%
   kable()
 ```
 
@@ -139,6 +145,7 @@ event_schedule_clean_2_tbl <- event_schedule_clean_1_tbl %>%
   mutate(Events = str_trim(Events))
 
 event_schedule_clean_2_tbl %>%
+  head(10) %>%
   kable()
 ```
 
@@ -170,6 +177,7 @@ event_schedule_clean_3_tbl  <- event_schedule_clean_2_tbl %>%
                               )) 
 
 event_schedule_clean_3_tbl %>%
+  head(10) %>%
   kable()
 ```
 
@@ -185,6 +193,7 @@ event_schedule_clean_4_tbl <- event_schedule_clean_3_tbl %>%
 
 ```{r}
 event_schedule_clean_4_tbl %>%
+  head(10) %>%
   kable()
 ```
 
@@ -199,6 +208,7 @@ event_schedule_clean_5_tbl <- event_schedule_clean_4_tbl %>%
   mutate(Medal_Ceremony = str_detect(event_schedule_clean_4_tbl$Events, event_type)) 
 
 event_schedule_clean_5_tbl %>%
+  head(10) %>%
   kable()
 ```
 
@@ -212,6 +222,7 @@ event_schedule_clean_6_tbl <- event_schedule_clean_5_tbl %>%
   select(Date, Sport_Group, Sport, Events, Medal_Ceremony,Venue, Latitude, Longitude)
 
 event_schedule_clean_6_tbl %>%
+  head(10) %>%
   kable()
 ```
  
