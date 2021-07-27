@@ -3,7 +3,7 @@
     "path": "~/Documents/R_SCRIPTS/DATA_WRANGLING2/2021_W29_R.Rmd",
     "project_path": "2021_W29_R.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "1842510507",
     "contents": "",
     "dirty": false,
     "created": 1627294333498.0,
@@ -11,15 +11,15 @@
     "relative_order": 1,
     "properties": {
         "tempName": "Untitled1",
-        "cursorPosition": "223,30",
-        "scrollLine": "213"
+        "cursorPosition": "1,25",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1627294379,
+    "lastKnownWriteTime": 1627388821,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1627294379730,
+    "last_content_update": 1627388821010,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -1,5 +1,5 @@
 ---
-title: "2021_W29_prepping_data"
+title: "2021 W29 preppin' data Challenge - R Solution"
 author: "Paula Munoz"
 date: "7/26/2021"
 output: github_document
@@ -67,7 +67,7 @@ venue_details_tbl <- readxl::read_excel(path = '../DATA_WRANGLING/2021_W29_prepp
 
 ## INSPECTING DATA 
 
-**event scheduled table**
+### event scheduled table
 
 * Inspecting first five rows:
 ```{r}
@@ -92,7 +92,7 @@ event_schedule_tbl %>%
 
 
 
-**venue details table**
+### venue details table
 
 * Detailed summary of:
 ```{r}
@@ -116,13 +116,13 @@ venue_details_tbl %>%
 event_schedule_clean_1_tbl <- event_schedule_tbl %>%
   # First cleaning the Time column and replacing xx -> 0:00
   mutate(Time = recode(Time, xx = '0:00')) %>%
-  # Separate Date Field into different columns to do some cleanup on dateparts late on
+  # Separate Date Field into different columns to do some cleanup on dateparts later on
   separate(Date, into = c("Day", "Month", "Year"), sep = "_") %>%
   # Remove letters from Day Field
   mutate(Day = str_extract(Day,"[[:digit:]]+")) %>%
   # Paste Date Time related columns into a single field
   mutate(Date = paste(Year, Month, Day, Time, sep ="-")) %>%
-  # Convert to datetimeformat
+  # Convert to datetime format
   mutate(Date = ymd_hm(Date)) %>%
   # Remove individual Date columns
   select(-Day:-Time)
