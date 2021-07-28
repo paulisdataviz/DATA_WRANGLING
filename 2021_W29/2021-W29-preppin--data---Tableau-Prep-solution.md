@@ -37,11 +37,6 @@ A list of all of the different venue locations
     event. (Note, this might not pick up all of the medal events.)
 -   Output the Data
 
-## LOADING LIBRARIES
-
-``` r
-code
-```
 
 ## IMPORTING DATA
 
