@@ -1,5 +1,0 @@
-"0","event_schedule_tbl <- readxl::read_excel(path = '../DATA_WRANGLING/2021_W29_prepping_data_files/Olympic Events.xlsx', "
-"0","                                         sheet = 1)"
-"0",""
-"0","venue_details_tbl <- readxl::read_excel(path = '../DATA_WRANGLING/2021_W29_prepping_data_files/Olympic Events.xlsx', "
-"0","                                        sheet = 2)"

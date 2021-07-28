@@ -57,10 +57,10 @@ Data resides in a .xlsx file, and it has two sheets:
 * Venue Details
 
 ```{r}
-event_schedule_tbl <- readxl::read_excel(path = '../DATA_WRANGLING/2021_W29_prepping_data_files/Olympic Events.xlsx', 
+event_schedule_tbl <- readxl::read_excel(path = '../../DATA_WRANGLING/2021_W29_prepping_data_files/Olympic Events.xlsx', 
                                          sheet = 1)
 
-venue_details_tbl <- readxl::read_excel(path = '../DATA_WRANGLING/2021_W29_prepping_data_files/Olympic Events.xlsx', 
+venue_details_tbl <- readxl::read_excel(path = '../../DATA_WRANGLING/2021_W29_prepping_data_files/Olympic Events.xlsx', 
                                         sheet = 2)
 ```
 
