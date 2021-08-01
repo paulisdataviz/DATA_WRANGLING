@@ -76,21 +76,20 @@ MAKEDATETIME([Date],[Time-1])
 
 ### 2. Parse the event list so each event is on a separate row
 
-``` r
-code
-```
+Used built in function to split strings using ',' as delimiter
 
 ### 3. Group similar sports into a Sport Type field
 
-``` r
-code
-```
+Used built in function to group strings by Spelling (Went from 58 to 48 Sports)
 
 ### 4. Combine the Venue table
 
-``` r
-code
-```
+Created a **left join** between 'event schedule' and 'venue details' table 
+
+Left join was done on **venue** and **sport** field
+
+![Tableau Prep workflow](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/1_Workflow.png)
+
 
 ### 5. Calculate whether the event is a ‘Victory Ceremony’ or ‘Gold Medal’ event. (Note, this might not pick up all of the medal events.)
 
