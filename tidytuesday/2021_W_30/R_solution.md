@@ -262,7 +262,7 @@ p_summer <- olympics_tidy1 %>%
 p_summer
 ```
 
-![](2021_W_30_tidy_tuesday_file_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_30/unnamed-chunk-10-1.png)
 
 ``` r
 #ggplotly(p_summer, tooltip = "pct")
@@ -294,7 +294,7 @@ p_winter <- olympics_tidy1 %>%
 p_winter
 ```
 
-![](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W_30_tidy_tuesday_file_files/figure-gfm/unnamed-chunk-11-1.png)
+![](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_30/unnamed-chunk-11-1.png)
 ``` r
 #ggplotly(p_winter, tooltip = "pct")
 ```
