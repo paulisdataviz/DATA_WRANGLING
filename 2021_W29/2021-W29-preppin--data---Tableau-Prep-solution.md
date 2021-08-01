@@ -59,7 +59,9 @@ I created Tableau Prep workflow separating it into the main steps:
 ``` r
 #DATE Field
 DATEPARSE('yyyy.MMMM.dd', ([Year]+'.'+[Month]+'.'+[Day]))
+```
 
+``` r
 #DATETIME field
 MAKEDATETIME([Date],[Time-1])
 ```
