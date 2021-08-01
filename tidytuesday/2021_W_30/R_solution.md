@@ -294,8 +294,7 @@ p_winter <- olympics_tidy1 %>%
 p_winter
 ```
 
-![](2021_W_30_tidy_tuesday_file_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
-
+![](2021_W_30_tidy_tuesday_file_files/figure-gfm/unnamed-chunk-11-1.pnghttps://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W_30_tidy_tuesday_file_files/figure-gfm/unnamed-chunk-11-1.png
 ``` r
 #ggplotly(p_winter, tooltip = "pct")
 ```
