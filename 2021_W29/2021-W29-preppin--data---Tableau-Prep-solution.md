@@ -108,3 +108,7 @@ Used built in function to split strings using ',' as delimiter
 
 ![Tableau Prep output](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/2_output.png)
 
+Tableau Prep Workflow: 
+[Workflow](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/2021W29.tflx)
+
+
