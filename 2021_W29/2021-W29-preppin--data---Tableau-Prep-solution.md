@@ -43,22 +43,25 @@ A list of all of the different venue locations
 Data resides in a .xlsx file, and it has two sheets:
 
 \* Event Schedule 
+
 \* Venue Details
+
+I created Tableau Prep workflow separating it into the main steps:
 
 ![Tableau Prep workflow](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/1_Workflow.png)
 
-## INSPECTING DATA
 
-### event scheduled table
 
-### venue details table
-
-## DATA WRANGLING
+## RELEVANT CALCULATIONS
 
 ### 1. Create a correctly formatted DateTime field (on event\_schedule\_tbl)
 
 ``` r
-code
+#DATE Field
+DATEPARSE('yyyy.MMMM.dd', ([Year]+'.'+[Month]+'.'+[Day]))
+
+#DATETIME field
+MAKEDATETIME([Date],[Time-1])
 ```
 
 ### 2. Parse the event list so each event is on a separate row
