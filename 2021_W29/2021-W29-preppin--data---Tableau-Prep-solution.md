@@ -44,9 +44,7 @@ Data resides in a .xlsx file, and it has two sheets:
 
 \* Event Schedule \* Venue Details
 
-``` r
-code
-```
+![Tableau Prep workflow](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/1_Workflow.png)
 
 ## INSPECTING DATA
 
