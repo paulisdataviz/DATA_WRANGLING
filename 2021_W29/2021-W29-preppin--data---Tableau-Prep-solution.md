@@ -38,11 +38,12 @@ A list of all of the different venue locations
 -   Output the Data
 
 
-## IMPORTING DATA
+## TABLEAU PREP WORKFLOW
 
 Data resides in a .xlsx file, and it has two sheets:
 
-\* Event Schedule \* Venue Details
+\* Event Schedule 
+\* Venue Details
 
 ![Tableau Prep workflow](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/1_Workflow.png)
 
