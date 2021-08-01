@@ -238,35 +238,6 @@ olympics_tidy1 %>%
 
 ## DATA VISUALIZATION
 
-``` r
-p_summer <- olympics_tidy1 %>%
-  filter(season == "Summer") %>%
-  ggplot(aes(year, sport, fill = pct)) +
-  geom_tile() +
-  geom_text(aes(label=scales::percent(pct)), size = 3) +
-  
-  scale_fill_distiller(palette = "RdPu", direction = 1) +
-  theme_ipsum() +
-  labs(
-        title = "Female Participation rate in the Olympics",
-        subtitle = "Summer Season | 1900 - 2016",
-        x = "Year",
-        y = "Sport"
-    ) +
-   theme(
-    legend.position = "none",
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    panel.background = element_rect(fill = "grey95", colour = "grey50")
-  ) + scale_x_date(date_breaks = "2 year", date_labels = "%y")
-
-p_summer
-```
-
-![](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_30/unnamed-chunk-10-1.png)
-
-``` r
-#ggplotly(p_summer, tooltip = "pct")
-```
 
 ``` r
 p_winter <- olympics_tidy1 %>%
@@ -295,6 +266,4 @@ p_winter
 ```
 
 ![](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_30/unnamed-chunk-11-1.png)
-``` r
-#ggplotly(p_winter, tooltip = "pct")
-```
+
