@@ -265,5 +265,5 @@ p_winter <- olympics_tidy1 %>%
 p_winter
 ```
 
-![](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_30/unnamed-chunk-11-1.png)
+![](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_30/unnamed-chunk-11-1.png =100x20)
 
