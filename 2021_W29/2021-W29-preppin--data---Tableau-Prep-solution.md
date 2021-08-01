@@ -56,9 +56,12 @@ I created Tableau Prep workflow separating it into the main steps:
 
 ### 1. Create a correctly formatted DateTime field (on event\_schedule\_tbl)
 
-1.1 Group hour xx to 0:00. 
+1.1 Group hour xx to 0:00
+
 1.2 Split Date field by '_' and perform cleaning steps
+
 1.3 Convert Time to Datetime and extract time
+
 1.4 Use Makedatetime fuction to create Datetime field
 
 ``` r
