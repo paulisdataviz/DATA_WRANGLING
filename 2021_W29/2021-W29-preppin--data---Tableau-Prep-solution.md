@@ -94,14 +94,14 @@ Left join was done on **venue** and **sport** field
 ### 5. Calculate whether the event is a ‘Victory Ceremony’ or ‘Gold Medal’ event. (Note, this might not pick up all of the medal events.)
 
 ``` r
-code
+#Medal ceremony Field
+CONTAINS([Events], 'Victory Ceremony'  ) or 
+CONTAINS([Events], 'Gold Medal'  )
 ```
 
 ### Extra: Split Location into Latitude, Longitude
 
-``` r
-code
-```
+Used built in function to split strings using ',' as delimiter
 
 ### Final Step - Output the Data - Clean Data
 
