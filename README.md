@@ -2,6 +2,9 @@
 
 This is a directory that includes all Data Wrangling related Challenges
 
+* **2021 - Week 32 - TidyTuesday - Paralympics Games**
+<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_32/2021_W_32_tidytuesday_R.md>
+
 * **2021 - Week 31 - Preppin Data - Excelling in Prep/ R**
 <https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W_31/2021_W_31_Preppin_R.md>
 
