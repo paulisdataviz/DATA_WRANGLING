@@ -6,6 +6,9 @@ This is a directory for all Data Wrangling related Challenges.
 
 [2022](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/README.md)<br>
 
+[2021](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021/README.md)<br>
+
+
 * **2021 - Week 32 - TidyTuesday - Paralympics Games**
 <https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_32/2021_W_32_tidytuesday_R.md>
 
