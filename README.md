@@ -2,9 +2,11 @@
 
 This is a directory for all Data Wrangling related Challenges.
 
-## Year:
+# 2022 Challenges
 
-[2022](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/README.md)<br>
+| Week| Challenge Project | Challenge Name | Tool | Relevant Libraries / Functions / Methods used |
+| --- | --- | --- | --- | --- |
+|  | |  |  |  |
 
 
 
