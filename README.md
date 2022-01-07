@@ -9,8 +9,15 @@ This is a directory for all Data Wrangling related Challenges.
 [2021](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021/README.md)<br>
 
 
-* **2021 - Week 32 - TidyTuesday - Paralympics Games**
-<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_32/2021_W_32_tidytuesday_R.md>
+# 2021 Challenges
+
+| Week| Challenge Project | Challenge Name | Tool | Relevant Libraries / Functions / Methods used |
+| --- | --- | --- | --- | --- |
+| [Week 32](<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_32/2021_W_32_tidytuesday_R.md>)<br> | TidyTuesday | Paralympics Games | R | tidyverse, skimr, ggthemes, group_by, summarise, filter, left_join|
+| --- | --- | --- | --- | --- |
+
+
+
 
 * **2021 - Week 31 - Preppin Data - Excelling in Prep/ R**
 <https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W_31/2021_W_31_Preppin_R.md>
