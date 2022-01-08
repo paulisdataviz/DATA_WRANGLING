@@ -6,6 +6,7 @@ This is a directory for all Data Wrangling related Challenges.
 
 | Week| Challenge Project | Challenge Name | Tool | Relevant Libraries / Functions / Methods used |
 | --- | --- | --- | --- | --- |
+| [W 1](<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/2022_W1/2022-W1-preppin--data---Tableau-Prep-Solution.md>)<br> | Preppin Data | The Prep School - Parental Contact Details | Tableau Prep | IF Statements, MAKEDATE |
 |  | |  |  |  |
 
 
@@ -13,7 +14,7 @@ This is a directory for all Data Wrangling related Challenges.
 # 2021 Challenges
 
 | Week| Challenge Project | Challenge Name | Tool | Relevant Libraries / Functions / Methods used |
-| --- | --- | --- | --- | --- |
+
 | [W 32](<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_32/2021_W_32_tidytuesday_R.md>)<br> | TidyTuesday | Paralympics Games | R | tidyverse, skimr, ggthemes / group_by, summarise, filter, left_join|
 | [W 31](<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W_31/2021_W_31_Preppin_R.md>)<br> | Preppin Data | Excelling in Prep | R | tidyverse, skimr, ggthemes / group_by, summarise, filter, left_join, pivot_table  |
 | [W 30](<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/tidytuesday/2021_W_30/R_solution.md>)<br> | TidyTuesday | The Olympics| R | tidyverse, skimr, lubridate / as.Date, group_by, summarise, filter, left_join, mutate |
