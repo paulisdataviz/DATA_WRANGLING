@@ -38,66 +38,14 @@ Data resides in a .csv file, and it has one sheet.
 
 I created below Tableau Prep workflow separating it into the main steps:
 
-![Tableau Prep workflow](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/1_Workflow.png)
+![Tableau Prep workflow](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/2022_W1/additional_files/2022W1_Tableau_Prep.png)
 
 
-
-## RELEVANT CALCULATIONS
-
-### 1. Create a correctly formatted DateTime field (on event\_schedule\_tbl)
-
-1.1 Group hour xx to 0:00
-
-1.2 Split Date field by '_' and perform cleaning steps
-
-1.3 Convert Time to Datetime and extract time
-
-1.4 Use Makedatetime fuction to create Datetime field
-
-``` r
-#DATE Field
-DATEPARSE('yyyy.MMMM.dd', ([Year]+'.'+[Month]+'.'+[Day]))
-```
-
-``` r
-#DATETIME field
-MAKEDATETIME([Date],[Time-1])
-```
-
-### 2. Parse the event list so each event is on a separate row
-
-Used built in function to split strings using ',' as delimiter
-
-### 3. Group similar sports into a Sport Type field
-
-Used built in function to group strings by Spelling (Went from 58 to 48 Sports)
-
-### 4. Combine the Venue table
-
-Created a **left join** between 'event schedule' and 'venue details' table 
-
-Left join was done on **venue** and **sport** field
-
-![Tableau Prep left join](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/3_join.png)
+### OUTPUT
 
 
-### 5. Calculate whether the event is a ‘Victory Ceremony’ or ‘Gold Medal’ event. (Note, this might not pick up all of the medal events.)
+[Tableau Prep output](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/2022_W1/additional_files/2022W1_Output_PM.csv)
 
-``` r
-#Medal ceremony Field
-CONTAINS([Events], 'Victory Ceremony'  ) or 
-CONTAINS([Events], 'Gold Medal'  )
-```
-
-### Extra: Split Location into Latitude, Longitude
-
-Used built in function to split strings using ',' as delimiter
-
-### Final Step - Output the Data - Clean Data
-
-
-![Tableau Prep output](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/2_output.png)
-
-[Download Tableau Prep Workflow](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2021_W29/2021W29.tflx)
+[Download my Tableau Prep Workflow](https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/2022_W1/additional_files/2022_W1.tflx)
 
 
