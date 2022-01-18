@@ -1,4 +1,4 @@
-2022 W 1 preppin’ data Challenge - R Solution
+2022 W 2 preppin’ data Challenge - R Solution
 ================
 Paula Munoz
 2022/01/17
