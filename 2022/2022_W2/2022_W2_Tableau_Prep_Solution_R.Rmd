@@ -1,0 +1,199 @@
+---
+title: "2022 W 1 preppin' data Challenge - R Solution"
+author: "Paula Munoz"
+date: "2022/01/17"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 2022: Week 2 -The Prep School - Birthday Cakes
+
+Challenge by Carl Allchin.
+
+Challenge Link:
+<https://preppindata.blogspot.com/2022/01/2022-week-2-prep-school-birthday-cakes.html>
+
+Data Source:
+<https://drive.google.com/file/d/1p8gt3cR3ATCeGK81pnT90x0a6dbCXst1/view>
+
+### DETAILS
+
+#### Requirements
+
+-   Input the csv file (link above)
+-   Remove any unnecessary fields 
+-   Form the pupil’s name in <First Name> <Last Name> format
+-   Create the date for the pupil's birthday in calendar year 2022
+-   Work out what day of the week the pupil's birthday falls on, Remember if the birthday falls on a Saturday or Sunday, we need to change the weekday to Friday
+-   Work out what month the pupil's birthday falls within
+-   Count how many birthdays there are on each weekday in each month
+-   Remove any unnecessary columns of data
+-   Output the data
+
+
+## LOADING LIBRARIES 
+
+```{r pressure, message=FALSE}
+library(tidyverse)
+library(skimr)
+library(knitr)
+library(tidyquant)
+library(lubridate)
+```
+
+
+## IMPORTING DATA 
+
+Data resides in a .csv file
+
+```{r}
+input <- readr::read_csv('additional_files/PD 2022 Wk 1 Input - Input.csv')
+
+```
+
+
+## INSPECTING DATA 
+
+* Inspecting first five rows:
+```{r}
+input %>%
+  head() %>%
+  kable()
+```
+
+
+* Detailed summary:
+```{r}
+input %>%
+  skim()
+```
+
+
+* Glimpse data:
+```{r}
+input %>%
+  glimpse()
+```
+
+
+## DATA WRANGLING
+
+### Remove unnecessary columns
+```{r}
+tidy_data  <- input %>% select(-`Parental Contact Name_1`, -`Parental Contact Name_2`, -`Preferred Contact Employer`, -`Parental Contact`, -gender)
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+
+
+### Form the pupil’s name 
+
+```{r}
+
+tidy_data <- tidy_data %>%
+  mutate(Pupils_Name = str_c(`pupil first name`, ', ',`pupil last name`))
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+```{r}
+tidy_data %>% glimpse()
+```
+
+
+### 2. Create the date for the pupil's birthday in calendar year 2022 (not academic year) 
+
+```{r}
+
+tidy_data <- tidy_data %>%
+  # Convert Date of Birth to Date Format
+  mutate(date = (mdy(tidy_data$`Date of Birth`))) %>%
+  # Extract year date
+  mutate(year_date = year(date)) %>%
+  # Mutate "This Year's Birthday"
+  mutate(This_years_birthday = case_when(
+                                  year_date == 2011 ~ date + years(11),
+                                  year_date == 2012 ~ date + years(10),
+                                  year_date == 2013 ~ date + years(9),
+                                  year_date == 2014 ~ date + years(8),
+                                  year_date == 2015 ~ date + years(7)
+  ))
+  
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+### 3. Work out what day of the week the pupil's birthday falls on. Remember if the birthday falls on a Saturday or Sunday, we need to change the weekday to Friday
+
+```{r}
+
+tidy_data <- tidy_data %>%
+  mutate(cake_needed_on = case_when(
+    wday(This_years_birthday, label = TRUE, abbr = FALSE) == "Saturday" ~ "Friday",
+    wday(This_years_birthday, label = TRUE, abbr = FALSE) == "Sunday" ~ "Friday",
+    TRUE ~ as.character(wday(This_years_birthday, label = TRUE, abbr = FALSE)))
+    )
+           
+tidy_data%>%
+  head(10) %>%
+  kable()            
+
+```
+
+### 4. Work out what month the pupil's birthday falls within
+
+```{r}
+tidy_data <- tidy_data %>%
+  mutate(Month = month(date, label = TRUE , abbr = FALSE))
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+### 5. Count how many birthdays there are on each weekday in each month 
+
+```{r}
+  tidy_data <- tidy_data %>%
+  group_by(Month, cake_needed_on) %>%
+  summarise(BDs_per_weekday_and_month = n()) %>%
+  ungroup() %>%
+  right_join(tidy_data) 
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+### 6. Remove unnecessary columns
+
+```{r}
+tidy_data <- tidy_data %>%
+  select(Pupils_Name, `Date of Birth`, This_years_birthday, Month, cake_needed_on, BDs_per_weekday_and_month)
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+
+
+### 6. Output data
+
+```{r}
+tidy_data %>%
+    write_csv("additional_files/2020_W2_Output_From_R")
+```
+
+
+
+
+  
+
