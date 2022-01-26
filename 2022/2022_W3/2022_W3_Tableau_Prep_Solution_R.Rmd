@@ -145,16 +145,19 @@ tidy_data%>%
   kable() 
 ```
 
-### 3. Work out what day of the week the pupil's birthday falls on. Remember if the birthday falls on a Saturday or Sunday, we need to change the weekday to Friday
+### Create an average score per student based on all of their grades
+### Aggregate the data per student to count how many subjects each student passed
+### Round the average score per student to one decimal place
+
 
 ```{r}
 
 tidy_data <- tidy_data %>%
-  mutate(cake_needed_on = case_when(
-    wday(This_years_birthday, label = TRUE, abbr = FALSE) == "Saturday" ~ "Friday",
-    wday(This_years_birthday, label = TRUE, abbr = FALSE) == "Sunday" ~ "Friday",
-    TRUE ~ as.character(wday(This_years_birthday, label = TRUE, abbr = FALSE)))
-    )
+  group_by(id,gender) %>%
+  summarise(Suject_Passed= sum(Subject_Passed),
+            Students_Avg_Score = mean(Score)) %>%
+  ungroup()
+ 
            
 tidy_data%>%
   head(10) %>%
@@ -162,35 +165,11 @@ tidy_data%>%
 
 ```
 
-### 4. Work out what month the pupil's birthday falls within
+### Remove any unnecessary fields and output the data
 
 ```{r}
 tidy_data <- tidy_data %>%
-  mutate(Month = month(date, label = TRUE , abbr = FALSE))
-
-tidy_data%>%
-  head(10) %>%
-  kable() 
-```
-### 5. Count how many birthdays there are on each weekday in each month 
-
-```{r}
-  tidy_data <- tidy_data %>%
-  group_by(Month, cake_needed_on) %>%
-  summarise(BDs_per_weekday_and_month = n()) %>%
-  ungroup() %>%
-  right_join(tidy_data) 
-
-tidy_data%>%
-  head(10) %>%
-  kable() 
-```
-
-### 6. Remove unnecessary columns
-
-```{r}
-tidy_data <- tidy_data %>%
-  select(Pupils_Name, `Date of Birth`, This_years_birthday, Month, cake_needed_on, BDs_per_weekday_and_month)
+  mutate(Students_Avg_Score = round(Students_Avg_Score,1))
 
 tidy_data%>%
   head(10) %>%
@@ -198,12 +177,11 @@ tidy_data%>%
 ```
 
 
-
-### 6. Output data
+### Outut data
 
 ```{r}
 tidy_data %>%
-    write_csv("additional_files/2020_W2_Output_From_R")
+    write_csv("additional_files/2020_W3_Output_From_R")
 ```
 
 
