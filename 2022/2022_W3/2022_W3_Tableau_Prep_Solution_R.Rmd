@@ -1,0 +1,213 @@
+---
+title: "2022 Week 3 preppin' data Challenge - R Solution"
+author: "Paula Munoz"
+date: "2022/01/26"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 2023: Week 3 -The Prep School - Passing Grades
+
+Challenge by Carl Allchin.
+
+Challenge Link:
+<https://preppindata.blogspot.com/2022/01/2022-week-3-prep-school-passing-grades.html>
+
+Data Sources:
+<https://drive.google.com/file/d/1p8gt3cR3ATCeGK81pnT90x0a6dbCXst1/view>
+<https://drive.google.com/file/d/135o1Kj9koWM5eZ4VJjH9EUCyo1UnP54C/view>
+
+### DETAILS
+
+#### Requirements
+
+- Input both data sets
+- Join the data sets together to give us the grades per student
+- Remove the parental data fields, they aren't needed for the challenge this week
+- Pivot the data to create one row of data per student and subject
+- Rename the pivoted fields to Subject and Score 
+- Create an average score per student based on all of their grades
+- Create a field that records whether the student passed each subject: Pass mark is 75 and above in all subjects
+- Aggregate the data per student to count how many subjects each student passed
+- Round the average score per student to one decimal place
+- Remove any unnecessary fields and output the data
+
+
+## LOADING LIBRARIES 
+
+```{r pressure, message=FALSE}
+library(tidyverse)
+library(skimr)
+library(knitr)
+library(tidyquant)
+library(lubridate)
+```
+
+
+## IMPORTING DATA 
+
+Data resides in a .csv file
+
+```{r}
+input <- readr::read_csv('additional_files/PD 2022 Wk 1 Input - Input.csv', 
+                           col_types = 
+                             cols(
+                                id = col_character()
+                              ))
+input_2 <- readr::read_csv('additional_files/PD 2022 WK 3 Grades.csv', 
+                           col_types = 
+                             cols(
+                               `Student ID` = col_character()
+                             ))
+
+```
+
+
+## INSPECTING DATA 
+
+* Inspecting first five rows:
+```{r}
+input %>%
+  head() %>%
+  kable()
+
+input_2 %>%
+  head() %>%
+  kable()
+```
+
+* Glimpse both tables:
+```{r}
+input %>%
+  glimpse()
+
+input_2 %>%
+  glimpse()
+```
+
+
+## DATA WRANGLING
+
+### Remove unnecessary columns
+```{r}
+# Keeping only Student ID and Gender from first table
+tidy_data  <- input %>% select(id,gender)
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+
+
+### Join the datasets
+
+```{r}
+
+input_2 <- input_2 %>%
+  #Renaming Student ID column under second dataset to id
+  rename(id = `Student ID`)
+
+tidy_data <- tidy_data %>%
+  left_join(input_2)
+
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+### Pivot the data to create one row of data per student and subject
+### Rename the pivoted fields to Subject and Score 
+
+```{r}
+tidy_data <- tidy_data %>%
+  pivot_longer(Maths:Geography,
+               names_to = "Subject",
+               values_to = "Score")
+```
+
+
+### Create a field that records whether the student passed each subject: 
+### Pass mark is 75 and above in all subjects
+
+```{r}
+
+tidy_data <- tidy_data %>%
+  mutate(Subject_Passed = case_when(Score >= 75 ~ 1,
+                                    TRUE ~ 0))
+  
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+### 3. Work out what day of the week the pupil's birthday falls on. Remember if the birthday falls on a Saturday or Sunday, we need to change the weekday to Friday
+
+```{r}
+
+tidy_data <- tidy_data %>%
+  mutate(cake_needed_on = case_when(
+    wday(This_years_birthday, label = TRUE, abbr = FALSE) == "Saturday" ~ "Friday",
+    wday(This_years_birthday, label = TRUE, abbr = FALSE) == "Sunday" ~ "Friday",
+    TRUE ~ as.character(wday(This_years_birthday, label = TRUE, abbr = FALSE)))
+    )
+           
+tidy_data%>%
+  head(10) %>%
+  kable()            
+
+```
+
+### 4. Work out what month the pupil's birthday falls within
+
+```{r}
+tidy_data <- tidy_data %>%
+  mutate(Month = month(date, label = TRUE , abbr = FALSE))
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+### 5. Count how many birthdays there are on each weekday in each month 
+
+```{r}
+  tidy_data <- tidy_data %>%
+  group_by(Month, cake_needed_on) %>%
+  summarise(BDs_per_weekday_and_month = n()) %>%
+  ungroup() %>%
+  right_join(tidy_data) 
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+### 6. Remove unnecessary columns
+
+```{r}
+tidy_data <- tidy_data %>%
+  select(Pupils_Name, `Date of Birth`, This_years_birthday, Month, cake_needed_on, BDs_per_weekday_and_month)
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+
+
+### 6. Output data
+
+```{r}
+tidy_data %>%
+    write_csv("additional_files/2020_W2_Output_From_R")
+```
+
+
+
+
+  
+
