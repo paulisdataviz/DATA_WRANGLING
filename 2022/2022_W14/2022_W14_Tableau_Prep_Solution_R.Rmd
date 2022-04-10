@@ -1,0 +1,203 @@
+---
+title: "2022 Week 14 preppin' data Challenge - R Solution"
+author: "Paula Munoz"
+date: "2022/04/10"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 2022: Week 14 -House of Games Winners
+
+
+Challenge by Jenny Martin.
+
+Challenge Link:
+<https://preppindata.blogspot.com/2022/04/2022-week-14-house-of-games-winners.html>
+
+Data Sources:
+<https://drive.google.com/file/d/1p8gt3cR3ATCeGK81pnT90x0a6dbCXst1/view>
+
+
+### DETAILS
+
+#### Requirements
+
+- Input the data
+- Only keep relevant fields and rename certain fields to remove duplication
+-> Ser. becomes Series
+-> Wk. becomes Week
+-> T becomes Tu
+-> T 1 becomes Th
+-> Total becomes Score
+-> Week becomes Points
+-> Week 1 becomes Rank
+
+- Filter the data to remove Series that have a null value, or are preceded by an 'N'
+- Calculate the Points without double points Friday
+-> Rank the players based on this new field
+-> Create a field to determine if there has been a change in winner for that particular Series and Week
+- Rank the players based on their Score instead
+-> Create a field to determine if there has been a change in winner for that particular Series and Week
+- Calculate the Score if the score on Friday was doubled (instead of the Points)
+-> Rank the players based on this new field
+-> Create a field to determine if there has been a change in winner for that particular Series and Week
+- Remove unnecessary fields
+- Output the data
+
+
+## LOADING LIBRARIES 
+
+```{r pressure, message=FALSE}
+library(tidyverse)
+library(skimr)
+library(knitr)
+library(tidyquant)
+library(lubridate)
+```
+
+
+## IMPORTING DATA 
+
+Data resides in a .csv file
+
+```{r}
+input <- readr::read_csv('additional_files/PD 2022 Wk 1 Input - Input.csv', 
+                           col_types = 
+                             cols(
+                                id = col_character()
+                              ))
+input_2 <- readr::read_csv('additional_files/PD 2022 WK 3 Grades.csv', 
+                           col_types = 
+                             cols(
+                               `Student ID` = col_character()
+                             ))
+
+```
+
+
+## INSPECTING DATA 
+
+* Inspecting first five rows:
+```{r}
+input %>%
+  head() %>%
+  kable()
+
+input_2 %>%
+  head() %>%
+  kable()
+```
+
+* Glimpse both tables:
+```{r}
+input %>%
+  glimpse()
+
+input_2 %>%
+  glimpse()
+```
+
+
+## DATA WRANGLING
+
+### Remove unnecessary columns
+```{r}
+# Keeping only Student ID and Gender from first table
+tidy_data  <- input %>% select(id,gender)
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+
+
+### Join the datasets
+
+```{r}
+
+input_2 <- input_2 %>%
+  #Renaming Student ID column under second dataset to id
+  rename(id = `Student ID`)
+
+tidy_data <- tidy_data %>%
+  left_join(input_2)
+
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+### Pivot the data to create one row of data per student and subject
+### Rename the pivoted fields to Subject and Score 
+
+```{r}
+tidy_data <- tidy_data %>%
+  pivot_longer(Maths:Geography,
+               names_to = "Subject",
+               values_to = "Score")
+```
+
+
+### Create a field that records whether the student passed each subject: 
+### Pass mark is 75 and above in all subjects
+
+```{r}
+
+tidy_data <- tidy_data %>%
+  mutate(Subject_Passed = case_when(Score >= 75 ~ 1,
+                                    TRUE ~ 0))
+  
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+### Create an average score per student based on all of their grades
+### Aggregate the data per student to count how many subjects each student passed
+### Round the average score per student to one decimal place
+
+
+```{r}
+
+tidy_data <- tidy_data %>%
+  group_by(id,gender) %>%
+  summarise(Suject_Passed= sum(Subject_Passed),
+            Students_Avg_Score = mean(Score)) %>%
+  ungroup()
+ 
+           
+tidy_data%>%
+  head(10) %>%
+  kable()            
+
+```
+
+### Remove any unnecessary fields and output the data
+
+```{r}
+tidy_data <- tidy_data %>%
+  mutate(Students_Avg_Score = round(Students_Avg_Score,1))
+
+tidy_data%>%
+  head(10) %>%
+  kable() 
+```
+
+
+### Outut data
+
+```{r}
+tidy_data %>%
+    write_csv("additional_files/2020_W3_Output_From_R")
+```
+
+
+
+
+  
+
