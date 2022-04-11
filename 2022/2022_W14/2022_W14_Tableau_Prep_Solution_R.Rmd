@@ -18,7 +18,7 @@ Challenge Link:
 <https://preppindata.blogspot.com/2022/04/2022-week-14-house-of-games-winners.html>
 
 Data Sources:
-<https://drive.google.com/file/d/1p8gt3cR3ATCeGK81pnT90x0a6dbCXst1/view>
+<https://drive.google.com/file/d/1cKZbluTPNlbBHm5LWHDEVVdsD9SA8l-A/view>
 
 
 ### DETAILS
@@ -26,25 +26,43 @@ Data Sources:
 #### Requirements
 
 - Input the data
+
 - Only keep relevant fields and rename certain fields to remove duplication
+
 -> Ser. becomes Series
+
 -> Wk. becomes Week
+
 -> T becomes Tu
+
 -> T 1 becomes Th
+
 -> Total becomes Score
+
 -> Week becomes Points
+
 -> Week 1 becomes Rank
 
 - Filter the data to remove Series that have a null value, or are preceded by an 'N'
+
 - Calculate the Points without double points Friday
+
 -> Rank the players based on this new field
+
 -> Create a field to determine if there has been a change in winner for that particular Series and Week
+
 - Rank the players based on their Score instead
+
 -> Create a field to determine if there has been a change in winner for that particular Series and Week
+
 - Calculate the Score if the score on Friday was doubled (instead of the Points)
+
 -> Rank the players based on this new field
+
 -> Create a field to determine if there has been a change in winner for that particular Series and Week
+
 - Remove unnecessary fields
+
 - Output the data
 
 
@@ -64,17 +82,7 @@ library(lubridate)
 Data resides in a .csv file
 
 ```{r}
-input <- readr::read_csv('additional_files/PD 2022 Wk 1 Input - Input.csv', 
-                           col_types = 
-                             cols(
-                                id = col_character()
-                              ))
-input_2 <- readr::read_csv('additional_files/PD 2022 WK 3 Grades.csv', 
-                           col_types = 
-                             cols(
-                               `Student ID` = col_character()
-                             ))
-
+input <- readr::read_csv("additional_files/Richard Osman's House of Games - Episode Guide - Players.csv")
 ```
 
 
@@ -86,9 +94,6 @@ input %>%
   head() %>%
   kable()
 
-input_2 %>%
-  head() %>%
-  kable()
 ```
 
 * Glimpse both tables:
@@ -96,17 +101,19 @@ input_2 %>%
 input %>%
   glimpse()
 
-input_2 %>%
-  glimpse()
+```
+
+```{r}
+dim(input)
 ```
 
 
 ## DATA WRANGLING
 
-### Remove unnecessary columns
+### Keep only relevant fields
 ```{r}
-# Keeping only Student ID and Gender from first table
-tidy_data  <- input %>% select(id,gender)
+tidy_data  <- input %>%
+  select(Player, Ser., Wk., Week, Total, Week_1, F, M_1, T_2, W_1, T_3,F_1)
 
 tidy_data%>%
   head(10) %>%
@@ -115,85 +122,230 @@ tidy_data%>%
 
 
 
-### Join the datasets
-
+### Rename fields
 ```{r}
 
-input_2 <- input_2 %>%
-  #Renaming Student ID column under second dataset to id
-  rename(id = `Student ID`)
-
-tidy_data <- tidy_data %>%
-  left_join(input_2)
-
+tidy_data  <- tidy_data%>%
+  rename(
+    Rank    = Week_1,
+    Points  = Week,
+    Score   = Total,
+    Week    = Wk.,
+    Series  = Ser.
+    )
 
 tidy_data%>%
   head(10) %>%
   kable() 
 ```
 
-### Pivot the data to create one row of data per student and subject
-### Rename the pivoted fields to Subject and Score 
+
+
+### Filter the data to remove Series that have a null value, or are preceded by an 'N'
 
 ```{r}
+# See different values for 'Series', we can see there is 'N1', 'N2' and Nulls/ NA
+tidy_data %>%
+  group_by(Series) %>%
+  summarise( n = n())
+
+
+```
+```{r}
 tidy_data <- tidy_data %>%
-  pivot_longer(Maths:Geography,
-               names_to = "Subject",
-               values_to = "Score")
+  filter(
+    !is.na(Series),
+    !str_detect(Series, "^N"))
 ```
 
+```{r}
+# Confirming unwanted values have been removed
+tidy_data %>%
+  group_by(Series) %>%
+  summarise( n = n())
 
-### Create a field that records whether the student passed each subject: 
-### Pass mark is 75 and above in all subjects
+
+```
+```{r}
+dim(tidy_data)
+# Reduced number of rows from 303 to 284
+```
 
 ```{r}
+tidy_data %>%
+  glimpse()
+```
 
-tidy_data <- tidy_data %>%
-  mutate(Subject_Passed = case_when(Score >= 75 ~ 1,
-                                    TRUE ~ 0))
+### Convert Ranks to numeric
+
+
+```{r}
+ tidy_data$Rank <- tidy_data$Rank %>%
+  substr(1,1) %>%
+  as.integer()
   
-tidy_data%>%
-  head(10) %>%
-  kable() 
-```
-
-### Create an average score per student based on all of their grades
-### Aggregate the data per student to count how many subjects each student passed
-### Round the average score per student to one decimal place
-
-
-```{r}
-
-tidy_data <- tidy_data %>%
-  group_by(id,gender) %>%
-  summarise(Suject_Passed= sum(Subject_Passed),
-            Students_Avg_Score = mean(Score)) %>%
-  ungroup()
+ tidy_data$M_1 <- tidy_data$M_1 %>%
+  substr(1,1) %>%
+  as.integer()
  
-           
-tidy_data%>%
-  head(10) %>%
-  kable()            
+  tidy_data$T_2 <- tidy_data$T_2 %>%
+  substr(1,1) %>%
+  as.integer()
+  
+  tidy_data$W_1 <- tidy_data$W_1 %>%
+  substr(1,1) %>%
+  as.integer()
 
+ tidy_data$T_3 <- tidy_data$T_3 %>%
+  substr(1,1) %>%
+  as.integer()
+  
+ tidy_data$F_1 <- tidy_data$F_1 %>%
+  substr(1,1) %>%
+  as.integer()
+
+tidy_data%>%
+  glimpse()  
 ```
 
-### Remove any unnecessary fields and output the data
 
 ```{r}
+tidy_data %>%
+  head()
+```
+### Calculate the Points without double points Friday
+```{r}
+
 tidy_data <- tidy_data %>%
-  mutate(Students_Avg_Score = round(Students_Avg_Score,1))
+  mutate(points_without_double_points_friday = (5 - M_1) + (5 - T_2) + (5 - W_1) + (5 - T_3) + (5 - F_1))
 
 tidy_data%>%
   head(10) %>%
   kable() 
 ```
+### Rank without double points Friday
+```{r}
+tidy_data <- tidy_data %>%
+  group_by(Series, Week) %>%
+  mutate(rank_without_double_points_friday = dense_rank(desc(points_without_double_points_friday))) %>%
+  ungroup()
+
+```
+
+## Create a field to determine if there has been a change in winner for that particular Series and Week
+
+```{r}
+tidy_data_change_1 <- tidy_data %>%
+  group_by(Series, Week) %>%
+  arrange(Rank) %>%
+  mutate(change_in_winner_no_double_points_friday =  case_when(Rank == rank_without_double_points_friday ~ 'FALSE',
+                                                               TRUE ~ 'TRUE')) %>%
+  filter(row_number() == 1) %>%
+  select(Series, Week, change_in_winner_no_double_points_friday) 
+```
+
+## Joining to original table and including change_in_winner_no_double_points_friday
+```{r}
+tidy_data <- tidy_data %>%
+  left_join(tidy_data_change_1)
+
+tidy_data%>%
+  head(10) %>%
+  kable()
+```
+### Rank the players based on their Score instead
+
+```{r}
+tidy_data <- tidy_data %>%
+  group_by(Series, Week) %>%
+  mutate(rank_based_on_score = dense_rank(desc(Score))) %>%
+  ungroup()
+```
+
+
+### Create a field to determine if there has been a change in winner for that particular Series and Week
+```{r}
+tidy_data_change_2 <- tidy_data %>%
+  group_by(Series, Week) %>%
+  arrange(Rank) %>%
+  mutate(change_in_winner_based_on_score =  case_when(Rank == rank_based_on_score ~ 'FALSE',
+                                                               TRUE ~ 'TRUE')) %>%
+  filter(row_number() == 1) %>%
+  select(Series, Week, change_in_winner_based_on_score) 
+```
+
+## Joining to original table and including change_in_winner_based_on_score
+```{r}
+tidy_data <- tidy_data %>%
+  left_join(tidy_data_change_2)
+
+tidy_data%>%
+  head(10) %>%
+  kable()
+```
+
+### Calculate the Score if the score on Friday was doubled (instead of the Points)
+
+```{r}
+tidy_data <- tidy_data %>%
+  mutate(score_if_double_friday = Score + F)
+
+tidy_data%>%
+  head(10) %>%
+  kable()
+```
+
+### Rank the players based on this new field
+```{r}
+tidy_data <- tidy_data %>%
+  group_by(Series, Week) %>%
+  mutate(rank_if_double_score_friday = dense_rank(desc(score_if_double_friday))) %>%
+  ungroup()
+```
+
+### Create a field to determine if there has been a change in winner for that particular Series and Week
+```{r}
+tidy_data_change_3 <- tidy_data %>%
+  group_by(Series, Week) %>%
+  arrange(Rank) %>%
+  mutate(change_in_winner_double_score_friday=  case_when(Rank == rank_if_double_score_friday ~ 'FALSE',
+                                                               TRUE ~ 'TRUE')) %>%
+  filter(row_number() == 1) %>%
+  select(Series, Week, change_in_winner_double_score_friday) 
+```
+
+## Joining to original table and including change_in_winner_double_score_friday
+```{r}
+tidy_data <- tidy_data %>%
+  left_join(tidy_data_change_3)
+
+tidy_data%>%
+  head(10) %>%
+  kable()
+```
+
+
+### Remove unnecessary fields
+
+```{r}
+
+tidy_data <- tidy_data %>%
+  select(Series, Week, Player, Rank, rank_without_double_points_friday, change_in_winner_no_double_points_friday, rank_based_on_score, change_in_winner_based_on_score, rank_if_double_score_friday, change_in_winner_double_score_friday, Score, Points, score_if_double_friday, points_without_double_points_friday) %>%
+  arrange(Series, Week)
+  
+ tidy_data%>%
+  head(10) %>%
+  kable()  
+```
+
+
 
 
 ### Outut data
 
 ```{r}
 tidy_data %>%
-    write_csv("additional_files/2020_W3_Output_From_R")
+    write_csv("additional_files/2022_W14_Output_From_R.csv")
 ```
 
 
