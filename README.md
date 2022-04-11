@@ -6,6 +6,7 @@ This is a directory for all Data Wrangling related Challenges.
 
 | Week| Challenge Project | Challenge Name | Tool | Relevant Libraries / Functions / Methods used |
 | --- | --- | --- | --- | --- |
+| [W 14R](<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/2022_W14/2022_W14_Tableau_Prep_Solution_R.md>)<br> | Preppin Data | House of Games Winners | R | tidyverse, skimr, lubridate, mutate, group_by, summarise, dense_rank |
 | [W 2R](<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/2022_W2/2022_W2_Tableau_Prep_Solution_R.md>)<br> | Preppin Data | The Prep School - Birthday Cakes | R | tidyverse, skimr, lubridate, mutate, str_c, group_by, summarise |
 | [W 2TP](<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/2022_W2/2022-W2-prepping-data_Tableau_Prep_Soultion.md>)<br> | Preppin Data | The Prep School - Birthday Cakess | Tableau Prep | IF Statements, DATEADD, DATENAME |
 | [W 1R](<https://github.com/paulisdataviz/DATA_WRANGLING/blob/main/2022/2022_W1/2022_W_1_preppin_data_solution_R.md>)<br> | Preppin Data | The Prep School - Parental Contact Details | R | tidyverse, skimr, lubridate, mutate, str_split|
